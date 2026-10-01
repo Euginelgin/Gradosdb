@@ -1,9 +1,3 @@
--- ============================================================
--- createdb.sql  –  GradesDB  (IISSI-1 Lab)
--- Drops and recreates all tables from scratch.
--- ============================================================
-
--- Disable FK checks so we can drop tables in any order
 SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS teaching_loads;
@@ -19,22 +13,16 @@ DROP TABLE IF EXISTS people;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ============================================================
--- 7.  people  (Personas)
--- ============================================================
 CREATE TABLE people (
-    person_id  INT            AUTO_INCREMENT,
-    dni        CHAR(9)        NOT NULL,
-    first_name VARCHAR(100)   NOT NULL,
-    last_name  VARCHAR(150)   NOT NULL,
-    age        TINYINT        NOT NULL,
-    email      VARCHAR(255)   NOT NULL,
+    person_id  INT AUTO_INCREMENT,
+    dni        CHAR(9) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name  VARCHAR(150) NOT NULL,
+    age        TINYINT NOT NULL,
+    email      VARCHAR(255) NOT NULL,
     PRIMARY KEY (person_id)
 );
 
--- ============================================================
--- 8.  professors  (Profesores)  – herencia de people
--- ============================================================
 CREATE TABLE professors (
     professor_id INT,
     category     VARCHAR(30) NOT NULL,
@@ -42,9 +30,6 @@ CREATE TABLE professors (
     FOREIGN KEY (professor_id) REFERENCES people(person_id)
 );
 
--- ============================================================
--- 9.  students  (Alumnos)  – herencia de people
--- ============================================================
 CREATE TABLE students (
     student_id    INT,
     access_method VARCHAR(20) NOT NULL,
@@ -52,47 +37,35 @@ CREATE TABLE students (
     FOREIGN KEY (student_id) REFERENCES people(person_id)
 );
 
--- ============================================================
--- 10. degrees  (Grados)
--- ============================================================
 CREATE TABLE degrees (
-    degree_id      INT          AUTO_INCREMENT,
-    degree_name    VARCHAR(80)  NOT NULL,
-    duration_years TINYINT      NOT NULL,
+    degree_id      INT AUTO_INCREMENT,
+    degree_name    VARCHAR(80) NOT NULL,
+    duration_years TINYINT NOT NULL,
     PRIMARY KEY (degree_id)
 );
 
--- ============================================================
--- 10. subjects  (Asignaturas)
--- ============================================================
 CREATE TABLE subjects (
-    subject_id   INT           AUTO_INCREMENT,
-    degree_id    INT           NOT NULL,
-    subject_name VARCHAR(120)  NOT NULL,
-    acronym      VARCHAR(12)   NOT NULL,
-    credits      TINYINT       NOT NULL,
-    course       TINYINT       NOT NULL,
-    subject_type VARCHAR(30)   NOT NULL,
+    subject_id   INT AUTO_INCREMENT,
+    degree_id    INT NOT NULL,
+    subject_name VARCHAR(120) NOT NULL,
+    acronym      VARCHAR(12) NOT NULL,
+    credits      TINYINT NOT NULL,
+    course       TINYINT NOT NULL,
+    subject_type VARCHAR(30) NOT NULL,
     PRIMARY KEY (subject_id),
     FOREIGN KEY (degree_id) REFERENCES degrees(degree_id)
 );
 
--- ============================================================
--- 11. groups  (Grupos)
--- ============================================================
 CREATE TABLE groups (
-    group_id      INT          AUTO_INCREMENT,
-    subject_id    INT          NOT NULL,
-    group_name    VARCHAR(40)  NOT NULL,
-    activity      VARCHAR(15)  NOT NULL,
-    academic_year YEAR         NOT NULL,
+    group_id      INT AUTO_INCREMENT,
+    subject_id    INT NOT NULL,
+    group_name    VARCHAR(40) NOT NULL,
+    activity      VARCHAR(15) NOT NULL,
+    academic_year YEAR NOT NULL,
     PRIMARY KEY (group_id),
     FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)
 );
 
--- ============================================================
--- 11. group_enrollments  (GruposAlumnos)  – N:M
--- ============================================================
 CREATE TABLE group_enrollments (
     student_id INT,
     group_id   INT,
@@ -101,24 +74,18 @@ CREATE TABLE group_enrollments (
     FOREIGN KEY (group_id)   REFERENCES groups(group_id)
 );
 
--- ============================================================
--- 12. grades  (Notas)
--- ============================================================
 CREATE TABLE grades (
-    grade_id    INT            AUTO_INCREMENT,
-    student_id  INT            NOT NULL,
-    group_id    INT            NOT NULL,
-    grade_value DECIMAL(4,2)   NOT NULL,
-    exam_call   VARCHAR(20)    NOT NULL,
-    with_honors BOOLEAN        NOT NULL DEFAULT 0,
+    grade_id    INT AUTO_INCREMENT,
+    student_id  INT NOT NULL,
+    group_id    INT NOT NULL,
+    grade_value DECIMAL(4,2) NOT NULL,
+    exam_call   VARCHAR(20) NOT NULL,
+    with_honors BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (grade_id),
     FOREIGN KEY (student_id) REFERENCES students(student_id),
     FOREIGN KEY (group_id)   REFERENCES groups(group_id)
 );
 
--- ============================================================
--- 13. subject_enrollments  (Matrículas)  – N:M
--- ============================================================
 CREATE TABLE subject_enrollments (
     student_id INT,
     subject_id INT,
@@ -127,9 +94,6 @@ CREATE TABLE subject_enrollments (
     FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)
 );
 
--- ============================================================
--- 14. teaching_loads  (Cargas docentes)  – N:M con atributo
--- ============================================================
 CREATE TABLE teaching_loads (
     professor_id INT,
     group_id     INT,
