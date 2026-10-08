@@ -137,3 +137,11 @@ ALTER TABLE groups
     ADD CONSTRAINT rn_uq_groups_name UNIQUE (subject_id, group_name, academic_year);
 ALTER TABLE teaching_loads
     ADD CONSTRAINT ck_teaching_loads_credits CHECK (credits > 0);
+ALTER TABLE grades
+    ADD CONSTRAINT rn11_grades_value CHECK (grade_value BETWEEN 0 AND 10),
+    ADD CONSTRAINT rn01_grades_with_honors CHECK (
+        with_honors = 0 OR grade_value >= 9
+    ),
+    ADD CONSTRAINT rn18_grades_exam_call CHECK (
+        exam_call IN ('Primera','Segunda','Tercera','Extraordinaria')
+    );
