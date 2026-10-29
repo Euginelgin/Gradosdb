@@ -3,8 +3,8 @@ USE grados;
 SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS teaching_loads;
-DROP TABLE IF EXISTS subject_enrollments;
-DROP TABLE IF EXISTS group_enrollments;
+DROP TABLE IF EXISTS students_subjects;
+DROP TABLE IF EXISTS students_groups;
 DROP TABLE IF EXISTS grades;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS subjects;
@@ -68,7 +68,7 @@ CREATE TABLE groups (
     FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE CASCADE
 );
 
-CREATE TABLE group_enrollments (
+CREATE TABLE students_groups (
     student_id INT,
     group_id   INT,
     PRIMARY KEY (student_id, group_id),
@@ -88,7 +88,7 @@ CREATE TABLE grades (
     FOREIGN KEY (group_id)   REFERENCES groups(group_id)
 );
 
-CREATE TABLE subject_enrollments (
+CREATE TABLE students_subjects (
     student_id INT,
     subject_id INT,
     PRIMARY KEY (student_id, subject_id),

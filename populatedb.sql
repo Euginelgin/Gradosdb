@@ -3,8 +3,8 @@ USE grados;
 SET FOREIGN_KEY_CHECKS = 0;
 
 DELETE FROM teaching_loads;
-DELETE FROM subject_enrollments;
-DELETE FROM group_enrollments;
+DELETE FROM students_subjects;
+DELETE FROM students_groups;
 DELETE FROM grades;
 DELETE FROM groups;
 DELETE FROM subjects;
@@ -100,7 +100,7 @@ INSERT INTO groups (group_id, subject_id, group_name, activity, academic_year) V
 (2, 11, 'L1', 'Laboratorio', 2024),
 (3, 11, 'L2', 'Laboratorio', 2024);
 
-INSERT INTO group_enrollments (student_id, group_id) VALUES
+INSERT INTO students_groups (student_id, group_id) VALUES
 (6,1),  (7,1),  (8,1),  (9,1),  (10,1),
 (11,1), (12,1), (13,1), (14,1), (15,1),
 (16,1), (17,1), (18,1), (19,1), (20,1),
@@ -147,7 +147,7 @@ INSERT INTO grades (grade_id, student_id, group_id, grade_value, exam_call, with
 (34, 24, 1, 6.0, 'Tercera', 0),
 (35, 25, 1, 5.7, 'Tercera', 0);
 
-INSERT INTO subject_enrollments (student_id, subject_id) VALUES
+INSERT INTO students_subjects (student_id, subject_id) VALUES
 (6,11),  (7,11),  (8,11),  (9,11),  (10,11),
 (11,11), (12,11), (13,11), (14,11), (15,11),
 (16,11), (17,11), (18,11), (19,11), (20,11),
